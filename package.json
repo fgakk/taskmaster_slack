@@ -1,0 +1,42 @@
+{
+  "name": "taskmaster_slack",
+  "version": "1.0.0",
+  "description": "Server for receiving calls from TaskMaster Slack App",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch & nodemon dist",
+    "lint": "eslint src --ext ts",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fgakk/taskmaster_slack.git"
+  },
+  "keywords": [
+    "Slack",
+    "Task",
+    "Management",
+    "Team"
+  ],
+  "author": "fgakk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fgakk/taskmaster_slack/issues"
+  },
+  "homepage": "https://github.com/fgakk/taskmaster_slack#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "1.18.4"
+  },
+  "devDependencies": {
+    "@types/node": "10.11.7",
+    "eslint": "5.7.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-promise": "4.0.1",
+    "tsc": "1.20150623.0",
+    "typescript": "3.1.3",
+    "typescript-eslint-parser": "20.0.0"
+  }
+}
