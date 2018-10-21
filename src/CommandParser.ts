@@ -1,18 +1,24 @@
+import {Reminder} from './domain';
 class CommandParser {
 
-    public parseRemindCommmand(commandText: string): RemindSomeone {
+    public parseRemindCommmand(commandText: string): Reminder {
+        
         const firstIndex = commandText.indexOf('[');
         const lastIndex = commandText.indexOf(']', firstIndex + 1)
         const task = commandText.substring(firstIndex + 1, lastIndex);
         const time = commandText.substring(lastIndex+2);
         const users = this.parseUsers(commandText.substring(0, firstIndex));
-        return { users, task, time };
+        const lastPicked: string[] = []
+        
+        return { users, lastPicked, task, time };
     }
 
     private parseUsers(rawStr: string) {
         const rawUsers = rawStr.split(' ')
         let result = []
-        rawUsers.forEach(element => {
+        rawUsers
+        .filter(user => user !== '')
+        .forEach(element => {
             result.push(this.parseUser(element))
         });
         return result;
@@ -23,12 +29,6 @@ class CommandParser {
         const lastIndex = rawUser.indexOf("|");
         return rawUser.substring(firstIndex + 1, lastIndex);
     }
-}
-
-interface RemindSomeone {
-    users: string[];
-    task: string;
-    time: string // natural language description
 }
 
 export default CommandParser;
