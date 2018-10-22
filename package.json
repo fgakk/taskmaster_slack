@@ -6,9 +6,10 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch & nodemon dist",
+    "postinstall": "npm run build",
     "lint": "eslint src --ext ts",
     "tsc": "tsc",
-    "start": "tsc & nodemon dist"
+    "start": "nodemon dist"
   },
   "repository": {
     "type": "git",
