@@ -42,8 +42,9 @@ class App {
 
   private scheduleReminders(): void {
     const rule = new schedule.RecurrenceRule();
-    rule.minute = 1;
-    schedule.scheduleJob("*/3 * * * *", () => {
+    rule.hour = 1
+    rule.minute = 15;
+    schedule.scheduleJob(rule, () => {
       this.reminders.forEach(r => this.generateSlackReminder(r));
     });
   }
