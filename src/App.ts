@@ -42,7 +42,7 @@ class App {
 
   private scheduleReminders(): void {
     const rule = new schedule.RecurrenceRule();
-    rule.hour = 1
+    rule.hour = 7
     rule.minute = 15;
     schedule.scheduleJob(rule, () => {
       this.reminders.forEach(r => this.generateSlackReminder(r));
