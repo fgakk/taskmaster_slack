@@ -20,6 +20,7 @@ const pickUser = (reminder: Reminder): string[] => {
     lastPicked.push(picked);
   }
 
+  reminder.lastPicked = lastPicked
   return assigned;
 };
 

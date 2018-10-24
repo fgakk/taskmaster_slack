@@ -73,9 +73,9 @@ class App {
         const users: string[] = (<any>response.data).channel.members;
         reminder.users = users;
         const pickedUsers = pickUser(reminder);
-        let userMention = null;
+        let userMention = "";
         pickedUsers.map(
-          user => userMention += "<@" + users + ">"
+          user => userMention += " <@" + user + ">"
         )
         this.slackApi.sendSlackMessage(channelName, userMention + " " + reminder.task)
             .then(response => {
