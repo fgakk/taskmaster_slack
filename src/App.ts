@@ -38,16 +38,13 @@ class App {
     }
   };
 
-  private scheduleReminders(): void {
-    this.reminders.forEach(this.scheduleReminder)
-  }
-  
-
-  private scheduleReminder(reminder: Reminder) : void {
+  private scheduleReminders() : void {
     const rule = new schedule.RecurrenceRule();
-    rule.hour = reminder.hour
-    rule.minute = reminder.minute
-    schedule.scheduleJob("*/2 * * * *", (reminder) => this.generateSlackReminder);
+    rule.hour = process.env.SCHEDULE_HOUR;
+    rule.minute = process.env.SCHEDULE_MINUTE;
+    schedule.scheduleJob("*/2 * * * *", () => {
+      this.reminders.forEach(r => this.generateSlackReminder(r));
+    });
   }
 
   private initializeReminderCache(): void {
