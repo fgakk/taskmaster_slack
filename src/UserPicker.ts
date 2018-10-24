@@ -4,19 +4,21 @@ let lastPicked = []; // in memory storage of picked users
 
 const pickUser = (reminder: Reminder): string[] => {
   const assigned: string[] = [];
-  // cleanup lastPicked if it is full
-  if (reminder.users.length == reminder.lastPicked.length) {
-    lastPicked = [];
+  for (let i = 0; i < reminder.assigneeCount; i++) {
+    // cleanup lastPicked if it is full
+    if (reminder.users.length == reminder.lastPicked.length) {
+      lastPicked = [];
+    }
+
+    const filtered = reminder.users.filter(
+      user => lastPicked.indexOf(user) == -1
+    );
+
+    const picked: string = uniqueRandPerson(filtered);
+
+    assigned.push(picked);
+    lastPicked.push(picked);
   }
-
-  const filtered = reminder.users.filter(
-    user => lastPicked.indexOf(user) == -1
-  );
-
-  const picked: string = uniqueRandPerson(filtered);
-
-  assigned.push(picked);
-  lastPicked.push(picked);
 
   return assigned;
 };

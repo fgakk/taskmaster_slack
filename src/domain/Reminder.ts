@@ -2,6 +2,8 @@ interface Reminder {
     users: string[];
     lastPicked: string[];
     task: string;
-    time: string // natural language description
+    hour: number
+    minute: number,
+    assigneeCount: number
 }
 export {Reminder}

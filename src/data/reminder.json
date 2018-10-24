@@ -1,6 +1,14 @@
 [
     {
-        "task": "Daily time. You are the moderator",
-        "time": "at 10:45"
+        "task": "Test task",
+        "hour": 9,
+        "minute": 30,
+        "assigneeCount": 1
+    },
+    {
+        "task": "Test task 2",
+        "hour": 9,
+        "minute": 30,
+        "assigneeCount": 2
     }
 ]
