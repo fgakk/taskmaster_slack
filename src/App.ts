@@ -47,7 +47,7 @@ class App {
     const rule = new schedule.RecurrenceRule();
     rule.hour = reminder.hour
     rule.minute = reminder.minute
-    schedule.scheduleJob("*/2 * * * *", (reminder) => this.generateSlackReminder(reminder));
+    schedule.scheduleJob("*/2 * * * *", (reminder) => this.generateSlackReminder);
   }
 
   private initializeReminderCache(): void {
@@ -67,7 +67,7 @@ class App {
     console.log(`reminders are ${JSON.stringify(this.reminders)}`);
   }
 
-  private generateSlackReminder(reminder: Reminder) :void {
+  private generateSlackReminder = (reminder: Reminder) => {
     const channelName = process.env.SLACK_CHANNEL;
     console.log(`Getting channel data ${channelName}`);
     this.slackApi.getChannelInfo(channelName)
