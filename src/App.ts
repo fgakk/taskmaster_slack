@@ -40,6 +40,8 @@ class App {
 
   private scheduleReminders(): void {
     const rule = new schedule.RecurrenceRule();
+    // Run only during weekdays
+    rule.dayOfWeek = new schedule.Range(1, 5);
     rule.hour = process.env.SCHEDULE_HOUR;
     rule.minute = process.env.SCHEDULE_MINUTE;
     schedule.scheduleJob(rule, () => {
