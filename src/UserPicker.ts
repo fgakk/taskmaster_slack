@@ -1,26 +1,22 @@
 import { Reminder } from "./domain";
 
-let lastPicked = []; // in memory storage of picked users
-
 const pickUser = (reminder: Reminder): string[] => {
   const assigned: string[] = [];
+  
   for (let i = 0; i < reminder.assigneeCount; i++) {
     // cleanup lastPicked if it is full
     if (reminder.users.length == reminder.lastPicked.length) {
-      lastPicked = [];
+      reminder.lastPicked = [];
     }
 
-    const filtered = reminder.users.filter(
-      user => lastPicked.indexOf(user) == -1
-    );
-
+    const filtered = reminder.users.filter(user => reminder.lastPicked.indexOf(user) == -1);
     const picked: string = uniqueRandPerson(filtered);
 
     assigned.push(picked);
-    lastPicked.push(picked);
+    reminder.lastPicked.push(picked);
   }
-
-  reminder.lastPicked = lastPicked
+  
+  
   return assigned;
 };
 
