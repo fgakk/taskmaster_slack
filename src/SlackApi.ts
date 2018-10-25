@@ -14,7 +14,9 @@ class SlackApi {
   public getChannelInfo(channel: string): AxiosPromise {
     const token = process.env.SLACK_ACCESS_TOKEN;
     const request = { token, channel };
-    return axios.get(`${apiUrl}/channels.info?${qs.stringify(request)}`);
+    // For public channels is channels.info for private groups.info
+    // TODO make it configurable
+    return axios.get(`${apiUrl}/groups.info?${qs.stringify(request)}`);
   }
 }
 
