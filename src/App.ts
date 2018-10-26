@@ -73,7 +73,7 @@ class App {
       .getChannelInfo(channelName)
       .then(response => {
         console.log(`${JSON.stringify(response.data)}`);
-        const users: string[] = (<any>response.data).channel.members;
+        const users: string[] = (<any>response.data).group.members; // TODO this is for private channel make it work for public as well
         reminder.users = users;
         const pickedUsers = pickUser(reminder);
         let userMention = "";
