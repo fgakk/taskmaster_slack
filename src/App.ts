@@ -44,7 +44,7 @@ class App {
     rule.dayOfWeek = new schedule.Range(1, 5);
     rule.hour = process.env.SCHEDULE_HOUR;
     rule.minute = process.env.SCHEDULE_MINUTE;
-    schedule.scheduleJob(rule, () => {
+    schedule.scheduleJob("*/1 * * * *", () => {
       this.reminders.forEach(r => this.generateSlackReminder(r));
     });
   }
@@ -70,10 +70,14 @@ class App {
     const channelName = process.env.SLACK_CHANNEL;
     console.log(`Getting channel data ${channelName}`);
     this.slackApi
-      .getChannelInfo(channelName)
+      .getChannelInfo(channelName, JSON.parse(process.env.SLACK_CHANNEL_PRIVATE))
       .then(response => {
         console.log(`${JSON.stringify(response.data)}`);
-        const users: string[] = (<any>response.data).group.members; // TODO this is for private channel make it work for public as well
+        
+        const users: string[] = JSON.parse(process.env.SLACK_CHANNEL_PRIVATE) === true ? 
+        (<any>response.data).group.members : 
+        (<any>response.data).channel.members;
+
         reminder.users = users;
         const pickedUsers = pickUser(reminder);
         let userMention = "";
