@@ -1,11 +1,8 @@
 import { config } from "dotenv";
 import * as express from "express";
-import * as reminderData from "./data/reminder.json";
 import * as bodyParser from "body-parser";
-import axios, { AxiosPromise } from "axios";
 import SlackApi from "./SlackApi";
 import { Reminder } from "./domain";
-import * as qs from "querystring";
 import { isVerified } from "./Verify";
 import * as schedule from "node-schedule";
 import { pickUser } from "./UserPicker";
