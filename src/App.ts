@@ -13,7 +13,7 @@ import { pickUser } from "./UserPicker";
 class App {
   public express;
   private slackApi: SlackApi;
-  private reminders: Reminder[] = [];
+  private reminders: Reminder[] = JSON.parse(process.env.REMINDER_DATA);
 
   constructor() {
     this.express = express();
@@ -51,6 +51,7 @@ class App {
 
   private initializeReminderCache(): void {
     let i = 0;
+    /*
     while (reminderData[i] !== undefined) {
       let reminder = {
         task: (<any>reminderData[i]).task,
@@ -63,6 +64,7 @@ class App {
       this.reminders.push(reminder);
       i++;
     }
+    */
     console.log(`reminders are ${JSON.stringify(this.reminders)}`);
   }
 
