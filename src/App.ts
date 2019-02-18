@@ -17,7 +17,6 @@ class App {
     config();
     this.registerParsers();
     this.mountRoutes();
-    this.initializeReminderCache();
     this.scheduleReminders();
     this.slackApi = new SlackApi();
   }
@@ -36,6 +35,7 @@ class App {
   };
 
   private scheduleReminders(): void {
+    console.log(`reminders are ${JSON.stringify(this.reminders)}`);
     const rule = new schedule.RecurrenceRule();
     // Run only during weekdays
     rule.dayOfWeek = new schedule.Range(1, 5);
@@ -45,26 +45,7 @@ class App {
       this.reminders.forEach(r => this.generateSlackReminder(r));
     });
   }
-
-  private initializeReminderCache(): void {
-    let i = 0;
-    /*
-    while (reminderData[i] !== undefined) {
-      let reminder = {
-        task: (<any>reminderData[i]).task,
-        hour: (<any>reminderData[i]).hour,
-        minute: (<any>reminderData[i]).minute,
-        users: [],
-        lastPicked: [],
-        assigneeCount: (<any>reminderData[i]).assigneeCount
-      };
-      this.reminders.push(reminder);
-      i++;
-    }
-    */
-    console.log(`reminders are ${JSON.stringify(this.reminders)}`);
-  }
-
+  
   private generateSlackReminder = (reminder: Reminder) => {
     const channelName = process.env.SLACK_CHANNEL;
     console.log(`Getting channel data ${channelName}`);
