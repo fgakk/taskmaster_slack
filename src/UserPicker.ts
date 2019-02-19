@@ -1,6 +1,9 @@
 import { Reminder } from "./domain";
 
 const pickUser = (reminder: Reminder): string[] => {
+  if (reminder.lastPicked === undefined) {
+    reminder.lastPicked = [];
+  }
   const assigned: string[] = [];
   const { assigneeCount, users } = reminder
   let {lastPicked} = reminder
