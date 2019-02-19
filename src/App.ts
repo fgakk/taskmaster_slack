@@ -59,7 +59,7 @@ class App {
         (<any>response.data).channel.members;
 
         reminder.users = users;
-        console.log(`reminder to pick user from ${reminder}`)
+        console.log(`reminder to pick user from ${JSON.stringify(reminder)}`)
         const pickedUsers = pickUser(reminder);
         let userMention = "";
         pickedUsers.map(user => (userMention += " <@" + user + ">"));
