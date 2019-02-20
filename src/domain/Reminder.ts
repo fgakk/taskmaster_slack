@@ -1,6 +1,6 @@
 interface Reminder {
     users: string[];
-    lastPicked: string[];
+    usersToBePicked: string[];
     task: string;
     hour: number
     minute: number,
