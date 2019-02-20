@@ -10,6 +10,7 @@ const pickUser = (reminder: Reminder): string[] => {
     const shuffledUsers: string[] = shuffle(users);
     console.log(`shuffled users ${shuffledUsers}`)
     const filledUsers: string[] = addToEnd(shuffledUsers, assigneeCount);
+    console.log(`filledUsers users ${filledUsers}`)
     reminder.usersToBePicked = filledUsers;
   }
   
