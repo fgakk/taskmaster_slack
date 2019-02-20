@@ -6,12 +6,12 @@ const pickUser = (reminder: Reminder): string[] => {
   let { usersToBePicked } = reminder
 
   // If there are no users to be picked set initialize it by first shuffling channel users
-  if (reminder.usersToBePicked === undefined || usersToBePicked.length == 0) {
+  if (usersToBePicked === undefined || usersToBePicked.length == 0) {
     const shuffledUsers: string[] = shuffle(users);
     console.log(`shuffled users ${shuffledUsers}`)
     const filledUsers: string[] = addToEnd(shuffledUsers, assigneeCount);
     console.log(`filledUsers users ${filledUsers}`)
-    reminder.usersToBePicked = filledUsers.slice();
+    usersToBePicked = filledUsers.slice();
   }
   
   // Then for assigment take from the usersToBePicked according to assignedCount
