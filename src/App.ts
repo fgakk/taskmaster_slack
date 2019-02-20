@@ -41,7 +41,7 @@ class App {
     rule.dayOfWeek = new schedule.Range(1, 5);
     rule.hour = process.env.SCHEDULE_HOUR;
     rule.minute = process.env.SCHEDULE_MINUTE;
-    schedule.scheduleJob('* */1 * * *', () => { // TODO fix
+    schedule.scheduleJob(rule, () => {
       this.reminders.forEach(r => this.generateSlackReminder(r));
     });
   }
