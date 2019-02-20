@@ -11,7 +11,7 @@ const pickUser = (reminder: Reminder): string[] => {
     console.log(`shuffled users ${shuffledUsers}`)
     const filledUsers: string[] = addToEnd(shuffledUsers, assigneeCount);
     console.log(`filledUsers users ${filledUsers}`)
-    reminder.usersToBePicked = filledUsers;
+    reminder.usersToBePicked = filledUsers.slice();
   }
   
   // Then for assigment take from the usersToBePicked according to assignedCount
