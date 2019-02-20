@@ -15,8 +15,10 @@ const pickUser = (reminder: Reminder): string[] => {
   
   // Then for assigment take from the usersToBePicked according to assignedCount
   const assigned: string[] = usersToBePicked.slice(0, assigneeCount)
+  console.log(`assigned users ${assigned}`)
   reminder.usersToBePicked = usersToBePicked.slice(assigneeCount)
-  
+  console.log(`usersTobePicked ${reminder.usersToBePicked}`)
+
   return assigned;
 };
 
