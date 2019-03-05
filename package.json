@@ -6,7 +6,6 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch & nodemon dist",
-    "postinstall": "npm run build",
     "lint": "eslint src --ext ts",
     "tsc": "tsc",
     "start": "nodemon dist"
@@ -50,5 +49,6 @@
     "ts-node": "^7.0.1",
     "tsc": "^1.20150623.0",
     "typescript-eslint-parser": "20.0.0"
-  }
+  },
+  "heroku-run-build-script": true
 }
