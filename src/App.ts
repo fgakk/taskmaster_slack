@@ -6,11 +6,13 @@ import { Reminder } from "./domain";
 import { isVerified } from "./Verify";
 import * as schedule from "node-schedule";
 import { pickUser } from "./UserPicker";
+import ReminderRepo from './ReminderRepo';
 
 class App {
   public express;
-  private slackApi: SlackApi;
-  private reminders: Reminder[] = JSON.parse(process.env.REMINDER_DATA);
+  private slackApi: SlackApi = new SlackApi();
+  private reminderRepo: ReminderRepo = new ReminderRepo();
+  private reminders: Reminder[];
 
   constructor() {
     this.express = express();
@@ -18,9 +20,23 @@ class App {
     this.registerParsers();
     this.mountRoutes();
     this.scheduleReminders();
-    this.slackApi = new SlackApi();
+    this.reminderRepo.init();
+    this.fillReminders();
   }
-
+  
+  private fillReminders() {
+ 
+    this.reminderRepo
+    .query()
+    .then(
+      res => 
+      this.reminders = res.rows.map(
+        (v, i, a) => a[i] = JSON.parse(v)
+        )
+      )
+      .catch(e => console.error(e.stack))
+    
+  }
   private registerParsers() {
     this.express.use(
       bodyParser.urlencoded({ verify: this.rawBodyBuffer, extended: true })
