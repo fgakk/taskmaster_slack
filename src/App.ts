@@ -36,14 +36,21 @@ class App {
 
   private scheduleReminders(): void {
     console.log(`reminders are ${JSON.stringify(this.reminders)}`);
-    const rule = new schedule.RecurrenceRule();
-    // Run only during weekdays
-    rule.dayOfWeek = new schedule.Range(1, 5);
-    rule.hour = process.env.SCHEDULE_HOUR;
-    rule.minute = process.env.SCHEDULE_MINUTE;
-    schedule.scheduleJob(rule, () => {
+    const cronRule = process.env.SCHEDULE_CRON
+    if (cronRule) {
+      schedule.scheduleJob(cronRule, () => {
+        this.reminders.forEach(r => this.generateSlackReminder(r));
+      });
+    } else {
+      const rule = new schedule.RecurrenceRule();
+      // Run only during weekdays
+      rule.dayOfWeek = new schedule.Range(1, 5);
+      rule.hour = process.env.SCHEDULE_HOUR;
+      rule.minute = process.env.SCHEDULE_MINUTE;
+      schedule.scheduleJob(rule, () => {
       this.reminders.forEach(r => this.generateSlackReminder(r));
     });
+    }
   }
   
   private generateSlackReminder = (reminder: Reminder) => {
