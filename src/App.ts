@@ -20,7 +20,6 @@ class App {
     this.registerParsers();
     this.mountRoutes();
     this.scheduleReminders();
-    this.reminderRepo.init();
     this.fillReminders();
   }
   

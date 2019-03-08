@@ -1,63 +1,45 @@
-import { Client, QueryResult } from 'pg';
-import { Reminder } from './domain';
+import { Pool, QueryResult, PoolClient } from "pg";
+import { Reminder } from "./domain";
 
-const client = new Client({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  ssl: true
+});
+
+// the pool with emit an error on behalf of any idle clients
+// it contains if a backend error or network partition happens
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle client", err);
 });
 
 class ReminderRepo {
-  public init() {
-    client.connect();
+  public async query() {
+    const client = await pool.connect();
+    try {
+      const res = await client.query(
+        "SELECT id, remaining_users, assign_count from reminders"
+      );
+      return res;
+    } finally {
+      client.release();
+    }
   }
 
-  public query(): Promise<QueryResult> {
-    return client.query('SELECT id, remaining_users, assign_count from reminders')    
-  }
-
-  public update(id: number, reminder: Reminder) {
-    client.query('BEGIN', (err) => {
-      if(err) {
-        this.rollback(err)
-        return
-      }
-      const params = [reminder.usersToBePicked, id]
-      client.query('UPDATE reminders set remaining_users=$1 where id=$2', params, (err, res) => {
-        if(err) {
-          this.rollback(err)
-          return
-        }
-        client.query('COMMIT', (err) => {
-          if(err) {
-            console.error('Error committing transaction', err.stack)
-          }
-        })
-      })
-    })
-    
-  }
-  public shutdown() {
-    client.end()
-  }
-
-  private rollback(err) {
-    client.query('ROLLBACK', (err) => {
-      if (err) {
-        console.error('Error rolling back client', err.stack)
-      }
-    })
-
-    return !!err
+  public async update(id: number, reminder: Reminder) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      const params = [reminder.usersToBePicked, id];
+      await client.query(
+        "UPDATE reminders set remaining_users=$1 where id=$2",
+        params
+      );
+      await client.query("COMMIT");
+    } catch (e) {
+      await client.query("ROLLBACK");
+    } finally {
+      client.release();
+    }
   }
 }
-
-
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
-
 export default ReminderRepo;
