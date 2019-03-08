@@ -30,7 +30,10 @@ class App {
     .then(
       res => 
       this.reminders = res.rows.map(
-        (v, i, a) => a[i] = JSON.parse(v)
+        (v, i, a) => {
+          console.log(v);
+          return a[i] = JSON.parse(v);
+        }
         )
       )
       .catch(e => console.error(e.stack))
