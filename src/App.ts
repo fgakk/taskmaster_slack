@@ -19,8 +19,8 @@ class App {
     config();
     this.registerParsers();
     this.mountRoutes();
-    this.scheduleReminders();
     this.fillReminders();
+    this.scheduleReminders();
   }
   
   private fillReminders() {
