@@ -23,7 +23,7 @@ class ReminderRepo {
         (val, idx, arr) => {
           let reminder = <Reminder>{};
           reminder.assigneeCount = val['assignee_count'];
-          reminder.remainingUsers = val['remaining_users'];
+          reminder.remainingUsers = JSON.parse(val['remaining_users']);
           reminder.id = val['id'];
           reminder.task = val['task'];
           return reminder;
@@ -39,7 +39,7 @@ class ReminderRepo {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
-      const params = [reminder.remainingUsers, reminder.id];
+      const params = [JSON.stringify(reminder.remainingUsers), reminder.id];
       await client.query(
         "UPDATE reminders set remaining_users=$1 where id=$2",
         params
