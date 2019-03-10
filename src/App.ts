@@ -27,7 +27,7 @@ class App {
  
     this.reminderRepo
     .query()
-    .then(res => this.reminders = res.rows)
+    .then(res => this.reminders = res)
     .catch(e => console.error(e.stack))
     
   }

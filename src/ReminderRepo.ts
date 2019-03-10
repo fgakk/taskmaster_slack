@@ -17,9 +17,19 @@ class ReminderRepo {
     const client = await pool.connect();
     try {
       const res = await client.query(
-        "SELECT id, remainingUsers, assigneeCount from reminders"
+        "SELECT id, remaining_users, assignee_count from reminders"
       );
-      return res;
+      const reminders = res.rows.map(
+        (val, idx, arr) => {
+          let reminder = <Reminder>{};
+          reminder.assigneeCount = val['assignee_count'];
+          reminder.remainingUsers = val['remaining_users'];
+          reminder.id = val['id'];
+          reminder.task = val['task'];
+          return reminder;
+        }
+      )
+      return reminders;
     } finally {
       client.release();
     }
@@ -31,7 +41,7 @@ class ReminderRepo {
       await client.query("BEGIN");
       const params = [reminder.remainingUsers, id];
       await client.query(
-        "UPDATE reminders set remainingUsers=$1 where id=$2",
+        "UPDATE reminders set remaining_users=$1 where id=$2",
         params
       );
       await client.query("COMMIT");
