@@ -27,7 +27,11 @@ class App {
  
     this.reminderRepo
     .query()
-    .then(res => this.reminders = res)
+    .then(res => {
+      this.reminders = res;
+      console.log(`reminders are ${JSON.stringify(this.reminders)}`
+      );}
+    )
     .catch(e => console.error(e.stack))
     
   }
@@ -45,7 +49,6 @@ class App {
   };
 
   private scheduleReminders(): void {
-    console.log(`reminders are ${JSON.stringify(this.reminders)}`);
     const cronRule = process.env.SCHEDULE_CRON
     if (cronRule) {
       schedule.scheduleJob(cronRule, () => {
