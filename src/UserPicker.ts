@@ -17,14 +17,12 @@ const pickUser = (reminder: Reminder): Reminder => {
   }
   
   // Then for assigment take from the usersToBePicked according to assignedCount
-  const assigned: string[] = remainingUsers.slice(0, assigneeCount)
-  reminder.remainingUsers = remainingUsers.slice(assigneeCount)
   updatedReminder.id = id;
   updatedReminder.task = task;
   updatedReminder.assigneeCount = assigneeCount;
-  updatedReminder.assigned = assigned;
+  updatedReminder.assigned = remainingUsers.slice(0, assigneeCount);
   updatedReminder.users = users;
-  updatedReminder.remainingUsers = remainingUsers;
+  updatedReminder.remainingUsers = remainingUsers.slice(assigneeCount);
   console.log(`updated reminder: assigned users -> ${updatedReminder.assigned}, remaining -> ${updatedReminder.remainingUsers} `)
   return updatedReminder;
 };
