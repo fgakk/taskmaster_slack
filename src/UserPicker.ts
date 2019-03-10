@@ -6,7 +6,7 @@ const pickUser = (reminder: Reminder): string[] => {
   let { remainingUsers } = reminder
 
   // If there are no users to be picked set initialize it by first shuffling channel users
-  if (remainingUsers === undefined || remainingUsers.length == 0) {
+  if (remainingUsers === undefined || remainingUsers === null  || remainingUsers.length == 0) {
     const shuffledUsers: string[] = shuffle(users);
     console.log(`shuffled users ${shuffledUsers}`)
     const filledUsers: string[] = addToEnd(shuffledUsers, assigneeCount);
