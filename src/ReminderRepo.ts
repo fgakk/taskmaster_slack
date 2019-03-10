@@ -17,7 +17,7 @@ class ReminderRepo {
     const client = await pool.connect();
     try {
       const res = await client.query(
-        "SELECT id, remaining_users, assign_count from reminders"
+        "SELECT id, remainingUsers, assigneeCount from reminders"
       );
       return res;
     } finally {
@@ -31,7 +31,7 @@ class ReminderRepo {
       await client.query("BEGIN");
       const params = [reminder.remainingUsers, id];
       await client.query(
-        "UPDATE reminders set remaining_users=$1 where id=$2",
+        "UPDATE reminders set remainingUsers=$1 where id=$2",
         params
       );
       await client.query("COMMIT");
