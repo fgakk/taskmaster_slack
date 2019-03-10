@@ -1,8 +1,10 @@
 import { Reminder } from "./domain";
 
-const pickUser = (reminder: Reminder): string[] => {
+const pickUser = (reminder: Reminder): Reminder => {
   
-  const { assigneeCount, users } = reminder
+  let updatedReminder = <Reminder>{};
+
+  const { id, task, assigneeCount, users } = reminder
   let { remainingUsers } = reminder
 
   // If there are no users to be picked set initialize it by first shuffling channel users
@@ -19,8 +21,13 @@ const pickUser = (reminder: Reminder): string[] => {
   console.log(`assigned users ${assigned}`)
   reminder.remainingUsers = remainingUsers.slice(assigneeCount)
   console.log(`usersTobePicked ${reminder.remainingUsers}`)
-
-  return assigned;
+  updatedReminder.id = id;
+  updatedReminder.task = task;
+  updatedReminder.assigneeCount = assigneeCount;
+  updatedReminder.users = users;
+  updatedReminder.remainingUsers = remainingUsers;
+  console.log(`updated reminder ${updatedReminder}`)
+  return updatedReminder;
 };
 
 const shuffle = (array: string[]): string[] => {

@@ -35,11 +35,11 @@ class ReminderRepo {
     }
   }
 
-  public async update(id: number, reminder: Reminder) {
+  public async update(reminder: Reminder) {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
-      const params = [reminder.remainingUsers, id];
+      const params = [reminder.remainingUsers, reminder.id];
       await client.query(
         "UPDATE reminders set remaining_users=$1 where id=$2",
         params
