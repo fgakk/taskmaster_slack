@@ -19,22 +19,9 @@ class App {
     config();
     this.registerParsers();
     this.mountRoutes();
-    this.fillReminders();
     this.scheduleReminders();
   }
   
-  private fillReminders() {
- 
-    this.reminderRepo
-    .query()
-    .then(res => {
-      this.reminders = res;
-      console.log(`reminders are ${JSON.stringify(this.reminders)}`
-      );}
-    )
-    .catch(e => console.error(e.stack))
-    
-  }
   private registerParsers() {
     this.express.use(
       bodyParser.urlencoded({ verify: this.rawBodyBuffer, extended: true })
@@ -51,19 +38,25 @@ class App {
   private scheduleReminders(): void {
     const cronRule = process.env.SCHEDULE_CRON
     if (cronRule) {
-      schedule.scheduleJob(cronRule, () => {
-        this.reminders.forEach(r => this.generateSlackReminder(r));
-      });
+      this.scheduleJob(cronRule);
     } else {
       const rule = new schedule.RecurrenceRule();
       // Run only during weekdays
       rule.dayOfWeek = new schedule.Range(1, 5);
       rule.hour = process.env.SCHEDULE_HOUR;
       rule.minute = process.env.SCHEDULE_MINUTE;
-      schedule.scheduleJob(rule, () => {
-      this.reminders.forEach(r => this.generateSlackReminder(r));
-    });
+      this.scheduleJob(rule);
     }
+  }
+
+  private scheduleJob(rule) {
+    schedule.scheduleJob(rule, () => {
+      this.reminderRepo
+      .query()
+      .then(
+        res => res.forEach(r => this.generateSlackReminder(r))
+      )
+    });
   }
   
   private generateSlackReminder = (reminder: Reminder) => {
