@@ -81,7 +81,7 @@ class App {
         reminder.users = users;
         console.log(`reminder to pick user from ${JSON.stringify(reminder)}`)
         const reminderToUpdate = pickUser(reminder);
-        //this.reminderRepo.update(reminderToUpdate);
+        this.reminderRepo.update(reminderToUpdate);
         let userMention = "";
         reminderToUpdate.assigned.map(user => (userMention += " <@" + user + ">"));
         this.slackApi
