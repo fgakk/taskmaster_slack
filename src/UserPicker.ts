@@ -59,11 +59,4 @@ const addToEnd = (users: string[], pickCount: number): string[] => {
   }
 }
 
-
-const uniqueRandPerson = (arr): string => {
-  const e = Math.floor(Math.random() * arr.length);
-
-  return arr[e];
-};
-
 export { pickUser };

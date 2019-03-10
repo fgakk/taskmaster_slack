@@ -12,8 +12,7 @@ class App {
   public express;
   private slackApi: SlackApi = new SlackApi();
   private reminderRepo: ReminderRepo = new ReminderRepo();
-  private reminders: Reminder[] = [];
-
+  
   constructor() {
     this.express = express();
     config();
