@@ -12,7 +12,7 @@ class App {
   public express;
   private slackApi: SlackApi = new SlackApi();
   private reminderRepo: ReminderRepo = new ReminderRepo();
-  private reminders: Reminder[];
+  private reminders: Reminder[] = [];
 
   constructor() {
     this.express = express();
@@ -27,16 +27,8 @@ class App {
  
     this.reminderRepo
     .query()
-    .then(
-      res => 
-      this.reminders = res.rows.map(
-        (v, i, a) => {
-          console.log(v);
-          return a[i] = JSON.parse(v);
-        }
-        )
-      )
-      .catch(e => console.error(e.stack))
+    .then(res => this.reminders = res.rows)
+    .catch(e => console.error(e.stack))
     
   }
   private registerParsers() {

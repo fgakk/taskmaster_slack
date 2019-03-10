@@ -3,22 +3,22 @@ import { Reminder } from "./domain";
 const pickUser = (reminder: Reminder): string[] => {
   
   const { assigneeCount, users } = reminder
-  let { usersToBePicked } = reminder
+  let { remainingUsers } = reminder
 
   // If there are no users to be picked set initialize it by first shuffling channel users
-  if (usersToBePicked === undefined || usersToBePicked.length == 0) {
+  if (remainingUsers === undefined || remainingUsers.length == 0) {
     const shuffledUsers: string[] = shuffle(users);
     console.log(`shuffled users ${shuffledUsers}`)
     const filledUsers: string[] = addToEnd(shuffledUsers, assigneeCount);
     console.log(`filledUsers users ${filledUsers}`)
-    usersToBePicked = filledUsers.slice();
+    remainingUsers = filledUsers.slice();
   }
   
   // Then for assigment take from the usersToBePicked according to assignedCount
-  const assigned: string[] = usersToBePicked.slice(0, assigneeCount)
+  const assigned: string[] = remainingUsers.slice(0, assigneeCount)
   console.log(`assigned users ${assigned}`)
-  reminder.usersToBePicked = usersToBePicked.slice(assigneeCount)
-  console.log(`usersTobePicked ${reminder.usersToBePicked}`)
+  reminder.remainingUsers = remainingUsers.slice(assigneeCount)
+  console.log(`usersTobePicked ${reminder.remainingUsers}`)
 
   return assigned;
 };

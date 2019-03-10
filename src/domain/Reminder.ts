@@ -1,9 +1,8 @@
 interface Reminder {
+    id: number,
     users: string[];
-    usersToBePicked: string[];
+    remainingUsers: string[];
     task: string;
-    hour: number
-    minute: number,
     assigneeCount: number
 }
 export {Reminder}

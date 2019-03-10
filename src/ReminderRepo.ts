@@ -29,7 +29,7 @@ class ReminderRepo {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
-      const params = [reminder.usersToBePicked, id];
+      const params = [reminder.remainingUsers, id];
       await client.query(
         "UPDATE reminders set remaining_users=$1 where id=$2",
         params
