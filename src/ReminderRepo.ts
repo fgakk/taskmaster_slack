@@ -17,7 +17,7 @@ class ReminderRepo {
     const client = await pool.connect();
     try {
       const res = await client.query(
-        "SELECT id, remaining_users, assignee_count, task from reminders"
+        "SELECT id, users, remaining_users, assignee_count, task from reminders"
       );
       const reminders = res.rows.map(
         (val, idx, arr) => {
@@ -26,6 +26,7 @@ class ReminderRepo {
           reminder.remainingUsers = JSON.parse(val['remaining_users']);
           reminder.id = val['id'];
           reminder.task = val['task'];
+          reminder.users = val['users'];
           return reminder;
         }
       )

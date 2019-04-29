@@ -60,35 +60,20 @@ class App {
   
   private generateSlackReminder = (reminder: Reminder) => {
     const channelName = process.env.SLACK_CHANNEL;
-    console.log(`Getting channel data ${channelName}`);
+    console.log(`reminder to pick user from ${JSON.stringify(reminder)}`)
+    const reminderToUpdate = pickUser(reminder);
+    this.reminderRepo.update(reminderToUpdate);
+    let userMention = "";
+    reminderToUpdate.assigned.map(user => (userMention += " <@" + user + ">"));
     this.slackApi
-      .getChannelInfo(channelName, JSON.parse(process.env.SLACK_CHANNEL_PRIVATE))
+      .sendSlackMessage(channelName, userMention + " " + reminder.task)
       .then(response => {
-        console.log(`${JSON.stringify(response.data)}`);
-        
-        const users: string[] = JSON.parse(process.env.SLACK_CHANNEL_PRIVATE) === true ? 
-        (<any>response.data).group.members : 
-        (<any>response.data).channel.members;
-
-        reminder.users = users;
-        console.log(`reminder to pick user from ${JSON.stringify(reminder)}`)
-        const reminderToUpdate = pickUser(reminder);
-        this.reminderRepo.update(reminderToUpdate);
-        let userMention = "";
-        reminderToUpdate.assigned.map(user => (userMention += " <@" + user + ">"));
-        this.slackApi
-          .sendSlackMessage(channelName, userMention + " " + reminder.task)
-          .then(response => {
-            console.log(
-              `reminder call result ${JSON.stringify(response.data)}`
-            );
-          })
-          .catch(error => {
-            console.log(`reminder call error ${error}`);
-          });
+        console.log(
+          `reminder call result ${JSON.stringify(response.data)}`
+        );
       })
       .catch(error => {
-        console.error(`problem while retrieving channel info ${error}`);
+        console.log(`reminder call error ${error}`);
       });
   };
 
