@@ -26,7 +26,7 @@ class ReminderRepo {
           reminder.remainingUsers = JSON.parse(val['remaining_users']);
           reminder.id = val['id'];
           reminder.task = val['task'];
-          reminder.users = val['users'];
+          reminder.users = JSON.parse(val['users']);
           return reminder;
         }
       )
