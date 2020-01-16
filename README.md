@@ -6,7 +6,7 @@ Taskmaster Slack lets you configure reminders for your team in a slack channel t
 
 In order for taskmaster_slack to work you need to register a custom app to your workspace. First go to slack app directory [here](https://api.slack.com/apps) and click `Create New App` for registering a new app to your workspace.
 
-![Create Slack image dialog]() 
+![Create Slack image dialog](doc/images/insert_app.png) 
 
 
 Here you can give any name you like and more importantly the workspace of your organization.
@@ -15,18 +15,18 @@ After creating the app, permissions needs to be defined so that taskmaster serve
 
 Under Basic Information go to `Add features and functionality` and choose `Permisions`
 
-![Permissions]()
+![Permissions](doc/images/permission.png)
 
 You will redirected to `OAuth & Permissions` page where you need to define scope of your app. The scopes should look like the following:
 
-![Scope]()
+![Scope](doc/images/oauth_scope.png)
 
 After adding the required permssion you can install the app by clicking `Install App to Workspace` on the same page.
 
 With successful installation you can use OAuth access token to access slack api and do actions permitted via the OAuth Permission defined befoore
 
 
-![OAuth Token]()
+![OAuth Token](doc/images/token.png)
 
 
 ## How to configure Taskmaster Server
