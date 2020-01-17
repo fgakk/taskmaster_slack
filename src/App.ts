@@ -1,16 +1,15 @@
 import { config } from "dotenv";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import SlackApi from "./SlackApi";
 import { Reminder } from "./domain";
 import { isVerified } from "./Verify";
 import * as schedule from "node-schedule";
 import { pickUser } from "./UserPicker";
 import ReminderRepo from './ReminderRepo';
+import {sendSlackReminder} from "./ReminderGenerator";
 
 class App {
   public express;
-  private slackApi: SlackApi = new SlackApi();
   private reminderRepo: ReminderRepo = new ReminderRepo();
   
   constructor() {
@@ -35,7 +34,7 @@ class App {
   };
 
   private scheduleReminders(): void {
-    const cronRule = process.env.SCHEDULE_CRON
+    const cronRule = process.env.SCHEDULE_CRON;
     if (cronRule) {
       this.scheduleJob(cronRule);
     } else {
@@ -60,21 +59,10 @@ class App {
   
   private generateSlackReminder = (reminder: Reminder) => {
     const channelName = process.env.SLACK_CHANNEL;
-    console.log(`reminder to pick user from ${JSON.stringify(reminder)}`)
+    console.log(`reminder to pick user from ${JSON.stringify(reminder)}`);
     const reminderToUpdate = pickUser(reminder);
     this.reminderRepo.update(reminderToUpdate);
-    let userMention = "";
-    reminderToUpdate.assigned.map(user => (userMention += " <@" + user + ">"));
-    this.slackApi
-      .sendSlackMessage(channelName, userMention + " " + reminder.task)
-      .then(response => {
-        console.log(
-          `reminder call result ${JSON.stringify(response.data)}`
-        );
-      })
-      .catch(error => {
-        console.log(`reminder call error ${error}`);
-      });
+    sendSlackReminder(reminderToUpdate, channelName);
   };
 
   private mountRoutes(): void {

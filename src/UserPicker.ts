@@ -4,15 +4,15 @@ const pickUser = (reminder: Reminder): Reminder => {
   
   let updatedReminder = <Reminder>{};
 
-  const { id, task, assigneeCount, users } = reminder
-  let { remainingUsers } = reminder
+  const { id, task, assigneeCount, users } = reminder;
+  let { remainingUsers } = reminder;
 
   // If there are no users to be picked set initialize it by first shuffling channel users
   if (remainingUsers === undefined || remainingUsers === null  || remainingUsers.length == 0) {
     const shuffledUsers: string[] = shuffle(users);
-    console.log(`shuffled users ${shuffledUsers}`)
+    console.log(`shuffled users ${shuffledUsers}`);
     const filledUsers: string[] = addToEnd(shuffledUsers, assigneeCount);
-    console.log(`filledUsers users ${filledUsers}`)
+    console.log(`filledUsers users ${filledUsers}`);
     remainingUsers = filledUsers.slice();
   }
   
@@ -46,7 +46,7 @@ const shuffle = (array: string[]): string[] => {
   }
 
   return shuffled;
-}
+};
 
 const addToEnd = (users: string[], pickCount: number): string[] => {
   
@@ -57,6 +57,6 @@ const addToEnd = (users: string[], pickCount: number): string[] => {
     // if there are odd number of users add the first user to the end
     return users.concat(users.slice(0, pickCount - (users.length % pickCount)))
   }
-}
+};
 
 export { pickUser };
