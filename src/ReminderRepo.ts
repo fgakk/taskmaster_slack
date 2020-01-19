@@ -1,4 +1,4 @@
-import { Pool, QueryResult, PoolClient } from "pg";
+import { Pool } from "pg";
 import { Reminder } from "./domain";
 
 const pool = new Pool({
@@ -19,7 +19,7 @@ class ReminderRepo {
       const res = await client.query(
         "SELECT id, users, remaining_users, assignee_count, task from reminders"
       );
-      const reminders = res.rows.map(
+      return res.rows.map(
         (val, idx, arr) => {
           let reminder = <Reminder>{};
           reminder.assigneeCount = val['assignee_count'];
@@ -29,8 +29,7 @@ class ReminderRepo {
           reminder.users = JSON.parse(val['users']);
           return reminder;
         }
-      )
-      return reminders;
+      );
     } finally {
       client.release();
     }

@@ -15,6 +15,8 @@ export const sendSlackReminder = (reminder: Reminder, channelName: string) : voi
             );
         })
         .catch(error => {
-            console.log(`reminder call error ${error}`);
+            console.log(error);
+            const message = "Failed to call slack api for sending task as messsage";
+            throw new Error(error);
         });
 };
